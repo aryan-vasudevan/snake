@@ -15,8 +15,8 @@ clock = pygame.time.Clock()
 # Snake class
 class Snake:
     def __init__(self):
-        self.body = [Vector2(5, 10), Vector2(6, 10), Vector2(7, 10)]
-        self.direction = Vector2(1, 0)
+        self.body = [Vector2(cell_number/2, cell_number/2), Vector2(cell_number/2, cell_number/2 - 1), Vector2(cell_number/2, cell_number/2 - 2)]
+        self.direction = Vector2(0, 1)
 
     def draw(self):
         for block in self.body:
@@ -45,7 +45,7 @@ fruit = Fruit()
 
 # Game loop
 screen_update = pygame.USEREVENT
-pygame.time.set_timer(screen_update, 150)
+pygame.time.set_timer(screen_update, 200)
 
 running = True
 while running:
@@ -58,17 +58,27 @@ while running:
             snake.move()
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_UP and snake.direction.y != 1:
                 snake.direction = Vector2(0, -1)
-            if event.key == pygame.K_DOWN:
+            if event.key == pygame.K_DOWN and snake.direction.y != -1:
                 snake.direction = Vector2(0, 1)
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_LEFT and snake.direction.x != 1:
                 snake.direction = Vector2(-1, 0)
-            if event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_RIGHT and snake.direction.x != -1:
                 snake.direction = Vector2(1, 0)
-                
+
     fruit.draw()
     snake.draw()
+
+    # Check if the snake hits the wall or itself
+    if snake.body[0].x == -1 or snake.body[0].x == cell_number or snake.body[0].y == -1 or snake.body[0].y == cell_number or snake.body[0] in snake.body[1:]:
+        running = False
+
+    # Check if the snake eats the fruit
+    if snake.body[0].x == fruit.pos.x and snake.body[0].y == fruit.pos.y:
+        fruit = Fruit()
+        fruit.draw()
+        snake.body.append(snake.body[-1]) 
 
     pygame.display.flip()
     screen.fill((0, 0, 0))
