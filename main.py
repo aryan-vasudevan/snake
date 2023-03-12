@@ -5,7 +5,7 @@ from pygame.math import Vector2
 pygame.init()
 
 # Create screen and essentials
-cell_size = 20
+cell_size = 30
 cell_number = 30
 screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
 pygame.display.set_caption("Snake")
@@ -20,8 +20,10 @@ class Snake:
 
     def draw(self):
         for block in self.body:
-            block_rect = pygame.Rect(block.x * cell_size, block.y * cell_size, cell_size, cell_size)
-            pygame.draw.rect(screen, (183, 111, 122), block_rect)
+            if block == self.body[0]:
+                screen.blit(snake_head_sprite, (block.x * cell_size, block.y * cell_size))
+            else:
+                screen.blit(snake_body_sprite, (block.x * cell_size, block.y * cell_size))
 
     def move(self):
         body_copy = self.body[:-1]
@@ -35,9 +37,34 @@ class Fruit:
         self.y = random.randint(0, cell_number - 1)
         self.pos = Vector2(self.x, self.y)
 
+        while self.pos in snake.body:
+            self.x = random.randint(0, cell_number - 1)
+            self.y = random.randint(0, cell_number - 1)
+                
+
     def draw(self):
-        fruit_rect = pygame.Rect(self.pos.x * cell_size, self.pos.y * cell_size, cell_size, cell_size)
-        pygame.draw.rect(screen, (126, 166, 114), fruit_rect)
+        screen.blit(fruit_sprite, (self.pos.x * cell_size, self.pos.y * cell_size))
+
+# Sprites
+fruit_sprite = pygame.image.load("img/Apple/apple.png")
+fruit_sprite = pygame.transform.scale(fruit_sprite, (cell_size , cell_size))
+
+snake_head_sprite_up = pygame.image.load("img/Snake/snake_head_up.png")
+snake_head_sprite_up = pygame.transform.scale(snake_head_sprite_up, (cell_size , cell_size))
+
+snake_head_sprite_down = pygame.image.load("img/Snake/snake_head_down.png")
+snake_head_sprite_down = pygame.transform.scale(snake_head_sprite_down, (cell_size , cell_size))
+
+snake_head_sprite_left = pygame.image.load("img/Snake/snake_head_left.png")
+snake_head_sprite_left = pygame.transform.scale(snake_head_sprite_left, (cell_size , cell_size))
+
+snake_head_sprite_right = pygame.image.load("img/Snake/snake_head_right.png")
+snake_head_sprite_right = pygame.transform.scale(snake_head_sprite_right, (cell_size , cell_size))
+
+snake_body_sprite = pygame.image.load("img/Snake/body.png")
+snake_body_sprite = pygame.transform.scale(snake_body_sprite, (cell_size , cell_size))
+
+snake_head_sprite = snake_head_sprite_down
 
 # Objects
 snake = Snake()
@@ -60,12 +87,16 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP and snake.direction.y != 1:
                 snake.direction = Vector2(0, -1)
+                snake_head_sprite = snake_head_sprite_up
             if event.key == pygame.K_DOWN and snake.direction.y != -1:
                 snake.direction = Vector2(0, 1)
+                snake_head_sprite = snake_head_sprite_down
             if event.key == pygame.K_LEFT and snake.direction.x != 1:
                 snake.direction = Vector2(-1, 0)
+                snake_head_sprite = snake_head_sprite_left
             if event.key == pygame.K_RIGHT and snake.direction.x != -1:
                 snake.direction = Vector2(1, 0)
+                snake_head_sprite = snake_head_sprite_right
 
     fruit.draw()
     snake.draw()
