@@ -5,7 +5,7 @@ from pygame.math import Vector2
 pygame.init()
 
 # Create screen and essentials
-cell_size = 20
+cell_size = 30
 cell_number = 30
 screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
 pygame.display.set_caption("Snake")
@@ -47,22 +47,22 @@ class Fruit:
 
 # Sprites
 fruit_sprite = pygame.image.load("img/Fruit/fruit.png")
-fruit_sprite = pygame.transform.scale(fruit_sprite, (cell_size , cell_size))
+fruit_sprite = pygame.transform.scale(fruit_sprite, (3/4 * cell_size , 3/4 * cell_size))
 
 snake_head_sprite_up = pygame.image.load("img/Snake/snake_head_up.png")
-snake_head_sprite_up = pygame.transform.scale(snake_head_sprite_up, (cell_size , cell_size))
+snake_head_sprite_up = pygame.transform.scale(snake_head_sprite_up, (3/4 * cell_size, 3/4 * cell_size))
 
 snake_head_sprite_down = pygame.image.load("img/Snake/snake_head_down.png")
-snake_head_sprite_down = pygame.transform.scale(snake_head_sprite_down, (cell_size , cell_size))
+snake_head_sprite_down = pygame.transform.scale(snake_head_sprite_down, (3/4 * cell_size, 3/4 * cell_size))
 
 snake_head_sprite_left = pygame.image.load("img/Snake/snake_head_left.png")
-snake_head_sprite_left = pygame.transform.scale(snake_head_sprite_left, (cell_size , cell_size))
+snake_head_sprite_left = pygame.transform.scale(snake_head_sprite_left, (3/4 * cell_size, 3/4 * cell_size))
 
 snake_head_sprite_right = pygame.image.load("img/Snake/snake_head_right.png")
-snake_head_sprite_right = pygame.transform.scale(snake_head_sprite_right, (cell_size , cell_size))
+snake_head_sprite_right = pygame.transform.scale(snake_head_sprite_right, (3/4 * cell_size , 3/4 * cell_size))
 
 snake_body_sprite = pygame.image.load("img/Snake/body.png")
-snake_body_sprite = pygame.transform.scale(snake_body_sprite, (cell_size , cell_size))
+snake_body_sprite = pygame.transform.scale(snake_body_sprite, (3/4 * cell_size, 3/4 * cell_size))
 
 snake_head_sprite = snake_head_sprite_down
 
