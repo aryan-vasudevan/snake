@@ -5,7 +5,7 @@ from pygame.math import Vector2
 pygame.init()
 
 # Create screen and essentials
-cell_size = 30
+cell_size = 20
 cell_number = 30
 screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
 pygame.display.set_caption("Snake")
@@ -46,7 +46,7 @@ class Fruit:
         screen.blit(fruit_sprite, (self.pos.x * cell_size, self.pos.y * cell_size))
 
 # Sprites
-fruit_sprite = pygame.image.load("img/Apple/apple.png")
+fruit_sprite = pygame.image.load("img/Fruit/fruit.png")
 fruit_sprite = pygame.transform.scale(fruit_sprite, (cell_size , cell_size))
 
 snake_head_sprite_up = pygame.image.load("img/Snake/snake_head_up.png")
