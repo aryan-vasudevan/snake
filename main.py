@@ -4,13 +4,16 @@ from pygame.math import Vector2
 # Initialize Pygame
 pygame.init()
 
-# Create screen and essentials
-cell_size = 30
+# Create screen
+cell_size = 25
 cell_number = 30
-screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
+display_size = Vector2(cell_size * cell_number, cell_size * cell_number)
+screen = pygame.display.set_mode(display_size)
 pygame.display.set_caption("Snake")
 
-clock = pygame.time.Clock()
+# Score
+score = 0
+score_font = pygame.font.SysFont("8bitwondernominal", int(2/3 * cell_size))
 
 # Snake class
 class Snake:
@@ -88,12 +91,15 @@ while running:
             if event.key == pygame.K_UP and snake.direction.y != 1:
                 snake.direction = Vector2(0, -1)
                 snake_head_sprite = snake_head_sprite_up
+
             if event.key == pygame.K_DOWN and snake.direction.y != -1:
                 snake.direction = Vector2(0, 1)
                 snake_head_sprite = snake_head_sprite_down
+
             if event.key == pygame.K_LEFT and snake.direction.x != 1:
                 snake.direction = Vector2(-1, 0)
                 snake_head_sprite = snake_head_sprite_left
+
             if event.key == pygame.K_RIGHT and snake.direction.x != -1:
                 snake.direction = Vector2(1, 0)
                 snake_head_sprite = snake_head_sprite_right
@@ -107,9 +113,17 @@ while running:
 
     # Check if the snake eats the fruit
     if snake.body[0].x == fruit.pos.x and snake.body[0].y == fruit.pos.y:
-        fruit = Fruit()
-        fruit.draw()
-        snake.body.append(snake.body[-1]) 
+        snake.body.append(snake.body[-1])
+        score += 1 
 
+        while fruit.pos in snake.body:
+            fruit = Fruit()
+
+    # Score Text
+    score_text = "score " + str(score)
+    render_text = score_font.render(score_text, False, (255, 255, 255))
+    screen.blit(render_text, (5/6 * display_size.x, 1/20 * display_size.y))
+
+    # Update the display
     pygame.display.flip()
     screen.fill((0, 0, 0))
